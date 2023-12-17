@@ -1,0 +1,8 @@
+{
+  "front": {
+    "url": "http://localhost:3000"
+  },
+    "back": {
+        "url": "https://api.realworld.io"
+    }
+}

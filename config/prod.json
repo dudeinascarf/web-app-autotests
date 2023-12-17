@@ -1,0 +1,8 @@
+{
+  "front": {
+    "url": "https://dudeinascarf-realworld-app.netlify.app"
+  },
+  "back": {
+    "url": "https://api.realworld.io"
+  }
+}
