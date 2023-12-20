@@ -1,6 +1,6 @@
 // @ts-check
 const { defineConfig } = require('@playwright/test');
-const { HEADLESS, FRONT_URL, DEVICE, PROJECT_CONFIG } = require('./utils/env.config');
+const { HEADLESS, FRONT_URL, DEVICE, DEVICES_COUNT, PROJECT_CONFIG } = require('./utils/env.config');
 
 /**
  * Read environment variables from file.
@@ -18,7 +18,7 @@ module.exports = defineConfig({
     /* Fail the build on CI if you accidentally left test.only in the source code. */
     forbidOnly: !!process.env.CI,
     /* Retry on CI only */
-    retries: process.env.CI ? 2 : 0,
+    retries: process.env.CI ? 0 : 0,
     /* Opt out of parallel tests on CI. */
     workers: process.env.CI ? 1 : undefined,
     /* Reporter to use. See https://playwright.dev/docs/test-reporters */
@@ -38,13 +38,14 @@ module.exports = defineConfig({
     timeout: 10 * 60 * 1000,
 
     /* Configure projects for major browsers */
-    projects: PROJECT_CONFIG.getProjectConfig(DEVICE),
+    projects: PROJECT_CONFIG.getProjectConfig(DEVICE, DEVICES_COUNT),
 
     /* Run your local dev server before starting the tests */
-    // webServer: {
-    //   command: 'npm run start',
-    //   url: 'http://127.0.0.1:3000',
-    //   reuseExistingServer: !process.env.CI,
-    // },
+    webServer: process.env.CI ? undefined : {
+        cwd: '../react-query-realworld',
+        command: 'npm run start',
+        url: FRONT_URL,
+        reuseExistingServer: !process.env.CI,
+    },
 });
 

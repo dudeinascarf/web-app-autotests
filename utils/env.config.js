@@ -16,6 +16,7 @@ const BACK_CONFIG = config.get('back');
 const ENV = process.env.NODE_ENV || process.env.NODE_CONFIG_ENV;
 const HEADLESS = process.env.HEADLESS === 'true';
 const DEVICE = process.env.DEVICE || process.env.npm_config_device || 'DESKTOP';
+const DEVICES_COUNT = process.env.DEVICES_COUNT || 1;
 
 const FRONT_URL = FRONT_CONFIG.url
 const BACK_URL = BACK_CONFIG.url;
@@ -27,25 +28,26 @@ console.log(`ENV: ${ENV}`);
 console.log(`HEADLESS: ${HEADLESS}`);
 
 const PROJECT_CONFIG = {
-    getProjectConfig: function (deviceType) {
+    getProjectConfig: function (deviceType, devicesCount) {
         let platforms;
 
-        console.log(`DEVICE: ${deviceType}`);
+        console.log(`DEVICE: ${deviceType} | DEVICES_COUNT: ${devicesCount}`);
+
         switch (deviceType) {
             case 'DESKTOP':
                 platforms = DESKTOP_DEVICES;
                 break;
             case 'MOBILE':
-                platforms = MOBILE_DEVICES
+                platforms = MOBILE_DEVICES;
                 break;
             case 'TOP':
-                platforms = TOP_DEVICES
+                platforms = TOP_DEVICES;
                 break;
             default:
-                return [];
+                throw new Error(`Unknown device type: ${deviceType}`);
         }
 
-        return platforms;
+        return platforms.slice(0, devicesCount);
     }
 };
 
@@ -54,6 +56,7 @@ module.exports = {
     ENV,
     HEADLESS,
     DEVICE,
+    DEVICES_COUNT,
     FRONT_URL,
     BACK_URL,
     API_URL,
