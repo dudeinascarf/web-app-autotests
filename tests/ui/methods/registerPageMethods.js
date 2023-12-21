@@ -15,15 +15,15 @@ exports.RegisterPageMethods = class RegisterPageMethods {
         this.haveAnAccountButton = page.getByRole('link', { name: registerPage.buttons.haveAnAccount });
     }
 
-    async expect_response(responseData, status, username, email) {
-        const image_url = 'https://api.realworld.io/images/smiley-cyrus.jpeg';
+    async expect_response(responseData, status, userData) {
+        const { username, email, avatar_url } = userData;
         const jwt_regex = /^[a-zA-Z0-9-_]+\.[a-zA-Z0-9-_]+\.[a-zA-Z0-9-_]+$/;
 
         await expect(status).toBe(201);
         await expect(responseData.user.email).toBe(email);
         await expect(responseData.user.username).toBe(username);
         await expect(responseData.user.bio).toBeNull();
-        await expect(responseData.user.image).toBe(image_url);
+        await expect(responseData.user.image).toBe(avatar_url);
         await expect(responseData.user.token).toMatch(jwt_regex);
     }
 
@@ -31,7 +31,7 @@ exports.RegisterPageMethods = class RegisterPageMethods {
         await expect(this.title).toBeVisible();
     }
 
-    async registerUser(username, email, password) {
+    async registerUser(username, email, password, avatar_url) {
         await this.usernameInput.fill(username);
         await this.emailInput.fill(email);
         await this.passwordInput.fill(password);
@@ -47,7 +47,7 @@ exports.RegisterPageMethods = class RegisterPageMethods {
         const status = response.status();
         const data = await response.json();
 
-        await this.expect_response(data, status, username, email);
+        await this.expect_response(data, status, { username, email, avatar_url });
     }
 
 };
