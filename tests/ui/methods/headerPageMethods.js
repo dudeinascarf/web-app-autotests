@@ -43,6 +43,10 @@ exports.HeaderPageMethods = class HeaderPageMethods {
         await this.page.waitForLoadState();
 
         await expect(this.page.url()).toContain('/register');
+
+        await expect(this.registerButton).toHaveClass(/active/);
+        await expect(this.loginButton).not.toHaveClass(/active/);
+        await expect(this.homeButton).not.toHaveClass(/active/);
     }
 
 };
