@@ -1,20 +1,28 @@
 const { test } = require('@playwright/test');
-const {NavigationMethods } = require('../../methods/navigationMethods')
-const { HeaderPageMethods } = require('../../methods/headerPageMethods')
+const { NavigationMethods } = require('../../methods/navigationMethods');
+const { HeaderPageMethods } = require('../../methods/headerPageMethods');
+const { RegisterPageMethods } = require('../../methods/registerPageMethods');
+const { new_user_data } = require('../../../../utils/user.config');
+
 
 test.describe('Check user registration', () => {
 
     test.beforeEach(async ({ page }) => {
         const navigationMethods = new NavigationMethods(page);
-        await navigationMethods.goToPage()
+        await navigationMethods.goToPage();
     });
 
-    test('should user register successfully', async ({page}) => {
+    test('should user register successfully', async ({ page }) => {
         const headerPageMethods = new HeaderPageMethods(page);
+        const registerPageMethods = new RegisterPageMethods(page);
+        const { username, email, password, avatar_url } = new_user_data();
 
         await headerPageMethods.checkLogo();
         await headerPageMethods.checkNonAuthorizedUserButtons();
         await headerPageMethods.clickSignUpButton();
+
+        await registerPageMethods.checkTitle();
+        await registerPageMethods.registerUser(username, email, password, avatar_url);
     });
 
 });
