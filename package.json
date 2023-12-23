@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test-ui:reg": "playwright test user_registration.spec.js"
+    "test-ui:reg": "playwright test user_registration.spec.js",
+    "test-api:user": "playwright test user_and_auth.spec.js"
   },
   "keywords": [],
   "author": "",

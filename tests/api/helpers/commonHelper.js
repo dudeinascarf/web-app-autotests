@@ -10,9 +10,9 @@ const parse_json = (data) => {
     }
 };
 
-const make_request = async (method, request, endpoint, payload, statusCode) => {
+const make_request = async (method, request, endpoint, statusCode, payload) => {
     return await request[method](`${API_URL}/${endpoint}`, {
-        body: payload
+        data: payload
     }).then((response) => {
         expect(response.status()).toBe(statusCode);
 
@@ -22,14 +22,14 @@ const make_request = async (method, request, endpoint, payload, statusCode) => {
     });
 };
 
-const GET_request = (request, endpoint, statusCode = 200) => {
+const GET_request = (request, endpoint, statusCode) => {
     return make_request('get', request, endpoint, statusCode);
 };
-const POST_request = (request, endpoint, payload, statusCode = 201) => {
+const POST_request = (request, endpoint, payload, statusCode) => {
     return make_request('post', request, endpoint, statusCode, payload);
 };
-const PUT_request = (request, endpoint, payload, statusCode = 200) => {
-    return make_request('put', request, endpoint, payload, statusCode);
+const PUT_request = (request, endpoint, payload, statusCode) => {
+    return make_request('put', request, endpoint, statusCode, payload);
 };
 
 
