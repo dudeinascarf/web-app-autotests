@@ -10,10 +10,13 @@ const parse_json = (data) => {
     }
 };
 
-const make_request = async (method, request, endpoint, statusCode, payload) => {
-    return await request[method](`${API_URL}/${endpoint}`, {
-        data: payload
-    }).then((response) => {
+const make_request = async (method, request, endpoint, statusCode, payload, authToken) => {
+    const requestOptions = { headers: {} };
+
+    if (payload) requestOptions.data = payload;
+    if (authToken) requestOptions.headers.Authorization = `Token ${authToken}`;
+
+    return await request[method](`${API_URL}/${endpoint}`, requestOptions).then((response) => {
         expect(response.status()).toBe(statusCode);
 
         return response.text();
@@ -22,19 +25,17 @@ const make_request = async (method, request, endpoint, statusCode, payload) => {
     });
 };
 
-const GET_request = (request, endpoint, statusCode) => {
-    return make_request('get', request, endpoint, statusCode);
-};
-const POST_request = (request, endpoint, payload, statusCode) => {
-    return make_request('post', request, endpoint, statusCode, payload);
-};
-const PUT_request = (request, endpoint, payload, statusCode) => {
-    return make_request('put', request, endpoint, statusCode, payload);
+const create_request = (method, endpoint) => {
+    return async (request, options) => {
+        const authToken = options.authToken || '';
+        const payload = options.payload || null;
+        const statusCode = options.statusCode || 200;
+
+        return await make_request(method, request, endpoint, statusCode, payload, authToken);
+    };
 };
 
 
 module.exports = {
-    GET_request,
-    POST_request,
-    PUT_request
+    create_request
 };

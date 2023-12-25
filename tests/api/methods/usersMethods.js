@@ -8,26 +8,27 @@ exports.ApiUsersMethods = class ApiUsersMethods {
         this.request = request;
     }
 
-    async getUserData(statusCode) {
-        return await ApiUsersHelper.GET_users(this.request, statusCode);
+    async getUserData(authToken, statusCode = 200) {
+        return await ApiUsersHelper.GET_users(this.request, { authToken, statusCode });
     }
 
     async createNewUser(username, email, password, statusCode = 201) {
         const payload = { user: { username, email, password } };
 
-        return await ApiUsersHelper.POST_users(this.request, payload, statusCode);
+        return await ApiUsersHelper.POST_users(this.request, { payload, statusCode });
     }
 
     async loginUser(email, password, statusCode = 200) {
         const payload = { user: { email, password } };
 
-        return await ApiUsersHelper.POST_usersLogin(this.request, payload);
+        return await ApiUsersHelper.POST_usersLogin(this.request, { payload, statusCode });
     }
 
-    async updateUserData(username, email, password, statusCode = 200) {
-        const payload = { user: { username, email, password } };
+    async updateUserData(authToken, updatedUserData, statusCode = 200) {
+        const { username, email, password, bio, avatar } = updatedUserData;
+        const payload = { user: { username, email, password, bio, avatar } };
 
-        return await ApiUsersHelper.PUT_users(this.request, payload, statusCode);
+        return await ApiUsersHelper.PUT_users(this.request, { authToken, payload, statusCode });
     }
 
     async expect_users_success_response(response) {

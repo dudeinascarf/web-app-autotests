@@ -1,25 +1,14 @@
-const { GET_request, POST_request, PUT_request } = require('../helpers/commonHelper');
+const { create_request } = require('../helpers/commonHelper');
 
 
-const USER_ENDPOINT = '/user';
-const USERS_ENDPOINT = '/users';
-const USERS_LOGIN_ENDPOINT = `/${USER_ENDPOINT}/login`;
+const USER_ENDPOINT = 'user';
+const USERS_ENDPOINT = 'users';
+const USERS_LOGIN_ENDPOINT = `${USERS_ENDPOINT}/login`;
 
-const GET_users = async (request, statusCode) => {
-    return await GET_request(request, USER_ENDPOINT, statusCode);
-};
-
-const POST_users = async (request, payload, statusCode) => {
-    return await POST_request(request, USERS_ENDPOINT, payload, statusCode);
-};
-
-const POST_usersLogin = async (request, payload, statusCode) => {
-    return await POST_request(request, USERS_LOGIN_ENDPOINT, payload, statusCode);
-};
-
-const PUT_users = async (request, payload, statusCode) => {
-    return await PUT_request(request, USER_ENDPOINT, payload, statusCode);
-};
+const GET_users = create_request('get', USER_ENDPOINT);
+const POST_users = create_request('post', USERS_ENDPOINT);
+const POST_usersLogin = create_request('post', USERS_LOGIN_ENDPOINT);
+const PUT_users = create_request('put', USER_ENDPOINT);
 
 
 module.exports = {

@@ -21,8 +21,18 @@ function generateUsername() {
     return randomizer.faker.internet.userName();
 }
 
+function generateUserBio() {
+    return randomizer.faker.person.bio();
+}
+
+function generateUserAvatarUrl() {
+    return randomizer.faker.image.avatar();
+}
+
 
 module.exports = {
     generateValueWithMask,
-    generateUsername
-}
+    generateUsername,
+    generateUserBio,
+    generateUserAvatarUrl
+};
