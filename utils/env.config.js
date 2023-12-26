@@ -18,9 +18,9 @@ const HEADLESS = process.env.HEADLESS === 'true';
 const DEVICE = process.env.DEVICE || process.env.npm_config_device || 'DESKTOP';
 const DEVICES_COUNT = process.env.DEVICES_COUNT || 1;
 
-const FRONT_URL = FRONT_CONFIG.url
+const FRONT_URL = FRONT_CONFIG.url;
 const BACK_URL = BACK_CONFIG.url;
-const API_URL = `${BACK_URL}/api`
+const API_URL = `${BACK_URL}/api`;
 
 console.log(`FRONT_URL: ${FRONT_URL}`);
 console.log(`BACK_URL: ${BACK_URL}`);
