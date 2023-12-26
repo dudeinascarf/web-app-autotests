@@ -1,5 +1,6 @@
 const { expect } = require('@playwright/test');
 const ApiUsersHelper = require('../helpers/usersHelper');
+const { JWT_REGEX } = require('../../../utils/data/regex');
 
 
 exports.ApiUsersMethods = class ApiUsersMethods {
@@ -24,20 +25,22 @@ exports.ApiUsersMethods = class ApiUsersMethods {
         return await ApiUsersHelper.POST_usersLogin(this.request, { payload, statusCode });
     }
 
-    async updateUserData(authToken, updatedUserData, statusCode = 200) {
-        const { username, email, password, bio, avatar } = updatedUserData;
-        const payload = { user: { username, email, password, bio, avatar } };
+    async updateUserData(authToken, username, email, password, bio, avatar, statusCode = 200) {
+        const payload = { user: { username, email, password, bio, image: avatar } };
 
         return await ApiUsersHelper.PUT_users(this.request, { authToken, payload, statusCode });
     }
 
-    async expect_users_success_response(response) {
-        expect(response.user).toBeDefined();
-        expect(response.user.email).toBeDefined();
-        expect(response.user.token).toBeDefined();
-        expect(response.user.username).toBeDefined();
-        expect(response.user.bio).toBeDefined();
-        expect(response.user.image).toBeDefined();
+    async expect_users_success_response(response, username, email, bio, image) {
+        expect(response).toEqual({
+            user: {
+                username,
+                email,
+                bio,
+                image,
+                token: expect.stringMatching(JWT_REGEX)
+            }
+        });
     }
 
     async expect_users_error_response(response) {

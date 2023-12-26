@@ -12,7 +12,8 @@ const USER_DATA = () => {
     const password = 'Test321!';
     const updated_password = generateValueWithMask('########');
     const bio = generateUserBio();
-    const avatar_url = generateUserAvatarUrl();
+    const default_avatar_url = 'https://api.realworld.io/images/smiley-cyrus.jpeg';
+    const new_avatar_url = generateUserAvatarUrl();
 
     return {
         username,
@@ -20,7 +21,8 @@ const USER_DATA = () => {
         password,
         updated_password,
         bio,
-        avatar_url
+        new_avatar_url,
+        default_avatar_url
     };
 };
 
