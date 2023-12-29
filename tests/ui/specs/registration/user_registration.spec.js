@@ -15,14 +15,16 @@ test.describe('Check user registration', () => {
     test('should user register successfully', async ({ page }) => {
         const headerPageMethods = new HeaderPageMethods(page);
         const registerPageMethods = new RegisterPageMethods(page);
-        const { username, email, password, avatar_url } = new_user_data();
+        const { username, email, password, default_avatar_url } = new_user_data();
 
         await headerPageMethods.checkLogo();
         await headerPageMethods.checkNonAuthorizedUserButtons();
         await headerPageMethods.clickSignUpButton();
 
         await registerPageMethods.checkTitle();
-        await registerPageMethods.registerUser(username, email, password, avatar_url);
+        await registerPageMethods.registerUser(username, email, password, default_avatar_url);
+
+        await headerPageMethods.checkAuthorizedUserButtons(username);
     });
 
 });
