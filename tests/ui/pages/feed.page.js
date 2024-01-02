@@ -1,14 +1,13 @@
 const feedPage = {
 
     titles: {
-        main: 'conduit',
-        secondary: 'A place to share your knowledge.',
-        noArticles: 'No articles are here... yet.',
+        main: 'h1.logo-font',
+        secondary: 'div.container > p',
     },
 
     buttons: {
         yourFeed: 'Your Feed',
-        globalFeed: 'Global Feed',
+        globalFeed: 'Global Feed'
     },
 
     containers: {
