@@ -17,5 +17,5 @@ const headerPage = {
 
 module.exports = {
     headerPage
-}
+};
 
