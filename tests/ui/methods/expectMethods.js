@@ -7,8 +7,16 @@ exports.ExpectMethods = class ExpectMethods {
         this.apiUsersMethods = new ApiUsersMethods(this.request);
     }
 
-    async expectUserResponse(responseData, username, email, avatar_url, bio = null) {
-        await this.apiUsersMethods.expect_users_success_response(responseData, username, email, bio, avatar_url, true);
+    async expectUserResponse(responseData, options) {
+        const username = options?.username;
+        const email = options?.email;
+        const avatar_url = options?.avatarUrl;
+        const bio = options?.bio || null;
+        const id = options?.id || null;
+
+        if (!options) return await this.apiUsersMethods.expect_users_error_response(responseData);
+
+        await this.apiUsersMethods.expect_users_success_response(responseData, username, email, bio, avatar_url, id);
     }
 
 };

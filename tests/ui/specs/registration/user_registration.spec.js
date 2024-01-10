@@ -31,7 +31,7 @@ test.describe('Check user registration', () => {
         await registerPageMethods.checkTitle();
 
         const reg_response = await registerPageMethods.registerUser(username, email, password);
-        await expectMethods.expectUserResponse(reg_response, username, email, default_avatar_url);
+        await expectMethods.expectUserResponse(reg_response, { username, email, avatarUrl: default_avatar_url, id: true });
 
         await headerPageMethods.checkAuthorizedUserButtons(username);
 

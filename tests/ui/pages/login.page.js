@@ -2,6 +2,10 @@ const loginPage = {
 
     title: 'Sign in',
 
+    fields: {
+        errorMessage: 'ul.error-messages li'
+    },
+
     inputs: {
         email: 'input[name="email"]',
         password: 'input[name="password"]'

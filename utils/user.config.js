@@ -11,7 +11,12 @@ function new_user_data() {
 }
 
 function existing_user_data(type = 'default') {
-    return existing_users[type];
+    const { default_avatar_url } = USER_DATA();
+
+    return {
+        ...existing_users[type],
+        default_avatar_url
+    };
 }
 
 module.exports = {

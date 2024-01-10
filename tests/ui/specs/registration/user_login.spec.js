@@ -34,18 +34,42 @@ test.describe('Check user login', () => {
         await apiUsersMethods.createNewUser(username, email, password);
 
         const login_response = await loginPageMethods.loginUser(email, password);
-        await expectMethods.expectUserResponse(login_response, username, email, default_avatar_url);
+        await expectMethods.expectUserResponse(login_response, { username, email, avatarUrl: default_avatar_url });
 
         await feedPageMethods.checkFeedTitle();
         await feedPageMethods.checkUserLoggedIn();
     });
 
     test('should existing user logs in', async ({ page }) => {
+        const feedPageMethods = new FeedPageMethods(page);
+        const loginPageMethods = new LoginPageMethods(page);
+        const expectMethods = new ExpectMethods(page);
+        const { username, email, password, default_avatar_url } = existing_user_data();
 
+        const login_response = await loginPageMethods.loginUser(email, password);
+        await expectMethods.expectUserResponse(login_response, {
+            username,
+            email,
+            avatarUrl: default_avatar_url
+        });
+
+        await feedPageMethods.checkFeedTitle();
+        await feedPageMethods.checkUserLoggedIn();
     });
 
     test('should user not logs in with invalid credentials', async ({ page }) => {
+        const headerPageMethods = new HeaderPageMethods(page);
+        const loginPageMethods = new LoginPageMethods(page);
+        const expectMethods = new ExpectMethods(page);
+        const non_existing_email = 'nonExistingEmail@nothing.com';
+        const non_existing_password = '12398765';
 
+        const login_response = await loginPageMethods.loginUser(non_existing_email, non_existing_password);
+        await expectMethods.expectUserResponse(login_response);
+
+        await loginPageMethods.checkErrorMessages();
+
+        await headerPageMethods.checkNonAuthorizedUserButtons();
     });
 
 

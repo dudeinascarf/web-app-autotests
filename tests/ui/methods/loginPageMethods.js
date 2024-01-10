@@ -8,6 +8,7 @@ exports.LoginPageMethods = class LoginPageMethods {
     constructor(page) {
         this.page = page;
         this.title = page.getByRole('heading', { name: loginPage.title });
+        this.errorMessage = page.locator(loginPage.fields.errorMessage);
         this.emailInput = page.locator(loginPage.inputs.email);
         this.passwordInput = page.locator(loginPage.inputs.password);
         this.signInButton = page.locator(loginPage.buttons.signIp);
@@ -32,6 +33,13 @@ exports.LoginPageMethods = class LoginPageMethods {
         const response = await responsePromise;
 
         return await response.json();
+    }
+
+    async checkErrorMessages() {
+        const errorMessages = 'email or password is invalid';
+
+        await expect(this.errorMessage).toBeVisible();
+        await expect(this.errorMessage).toHaveText(errorMessages);
     }
 
 };

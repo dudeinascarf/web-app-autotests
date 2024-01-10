@@ -31,12 +31,14 @@ exports.ApiUsersMethods = class ApiUsersMethods {
         return await ApiUsersHelper.PUT_users(this.request, { authToken, payload, statusCode });
     }
 
-    async expect_users_success_response(response, username, email, bio, image, id = null) {
+    async expect_users_success_response(response, username, email, bio, image, id) {
+        const expected_id = id === true ? expect.any(Number) : id;
+
         const expected_response = {
             user: {
                 username,
                 email,
-                id: expect.any(Number),
+                id: expected_id,
                 bio,
                 image,
                 token: expect.stringMatching(REGEX.JWT)
@@ -49,8 +51,11 @@ exports.ApiUsersMethods = class ApiUsersMethods {
     }
 
     async expect_users_error_response(response) {
-        expect(response.errors).toBeDefined();
-        expect(response.errors.body).toBeDefined();
+        expect(response).toEqual({
+            'errors': {
+                'email or password': ['is invalid']
+            }
+        });
     }
 
 };
