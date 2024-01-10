@@ -3,6 +3,7 @@ const { NavigationMethods } = require('../../methods/navigationMethods');
 const { HeaderPageMethods } = require('../../methods/headerPageMethods');
 const { FeedPageMethods } = require('../../methods/feedPageMethods');
 const { RegisterPageMethods } = require('../../methods/registerPageMethods');
+const { ExpectMethods } = require('../../methods/expectMethods');
 const { new_user_data } = require('../../../../utils/user.config');
 
 
@@ -17,6 +18,7 @@ test.describe('Check user registration', () => {
         const headerPageMethods = new HeaderPageMethods(page);
         const feedPageMethods = new FeedPageMethods(page);
         const registerPageMethods = new RegisterPageMethods(page);
+        const expectMethods = new ExpectMethods(page);
         const { username, email, password, default_avatar_url } = new_user_data();
 
         await feedPageMethods.checkFeedTitle();
@@ -27,7 +29,9 @@ test.describe('Check user registration', () => {
         await headerPageMethods.clickSignUpButton();
 
         await registerPageMethods.checkTitle();
-        await registerPageMethods.registerUser(username, email, password, default_avatar_url);
+
+        const reg_response = await registerPageMethods.registerUser(username, email, password);
+        await expectMethods.expectUserResponse(reg_response, { username, email, avatarUrl: default_avatar_url, id: true });
 
         await headerPageMethods.checkAuthorizedUserButtons(username);
 

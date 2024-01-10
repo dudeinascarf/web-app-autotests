@@ -15,6 +15,16 @@ exports.HeaderPageMethods = class HeaderPageMethods {
         this.userNameButton = (username) => page.locator(headerPage.buttons.userName(username));
     }
 
+    async check_active_button(active) {
+        const buttons = ['registerButton', 'loginButton', 'homeButton'];
+
+        for (const button of buttons) {
+            if (button === active) continue;
+            await (expect(this[button])).not.toHaveClass(/active/);
+        }
+        await (expect(this[active])).toHaveClass(/active/);
+    }
+
     async checkLogo() {
         await expect(this.logo).toBeVisible();
     }
@@ -44,9 +54,25 @@ exports.HeaderPageMethods = class HeaderPageMethods {
 
         await expect(this.page.url()).toContain('/register');
 
-        await expect(this.registerButton).toHaveClass(/active/);
-        await expect(this.loginButton).not.toHaveClass(/active/);
-        await expect(this.homeButton).not.toHaveClass(/active/);
+        await this.check_active_button('registerButton');
+    }
+
+    async clickSignInButton() {
+        await this.loginButton.click();
+        await this.page.waitForLoadState();
+
+        await expect(this.page.url()).toContain('/login');
+
+        await this.check_active_button('loginButton');
+    }
+
+    async clickHomeButton() {
+        await this.homeButton.click();
+        await this.page.waitForLoadState();
+
+        await expect(this.page.url()).toContain('/');
+
+        await this.check_active_button('homeButton');
     }
 
 };
