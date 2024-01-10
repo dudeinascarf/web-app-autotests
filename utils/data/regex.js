@@ -1,6 +1,10 @@
-const JWT_REGEX = /^[a-zA-Z0-9\-_]+\.[a-zA-Z0-9\-_]+\.[a-zA-Z0-9\-_]+$/;
+const REGEX = {
+    AVATAR: /^https:\/\/static.productionready.io\/images\/smiley-cyrus.jpg$/,
+    JWT: /^.+\..+\..+$/
+};
+
 
 
 module.exports = {
-    JWT_REGEX
+    REGEX
 };

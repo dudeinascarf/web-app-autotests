@@ -1,4 +1,3 @@
-const { expect } = require('@playwright/test');
 const { ApiUsersMethods } = require('../../api/methods/usersMethods');
 
 
@@ -9,7 +8,7 @@ exports.ExpectMethods = class ExpectMethods {
     }
 
     async expectUserResponse(responseData, username, email, avatar_url, bio = null) {
-        await this.apiUsersMethods.expect_users_success_response(responseData, username, email, bio, avatar_url);
+        await this.apiUsersMethods.expect_users_success_response(responseData, username, email, bio, avatar_url, true);
     }
 
 };

@@ -1,7 +1,6 @@
 const { expect } = require('@playwright/test');
 const { loginPage } = require('../pages/login.page');
 const { API_URL } = require('../../../utils/env.config');
-const { JWT_REGEX } = require('../../../utils/data/regex');
 
 
 exports.LoginPageMethods = class LoginPageMethods {
